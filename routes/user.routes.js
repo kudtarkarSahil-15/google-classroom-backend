@@ -5,7 +5,10 @@ const {
   loginController,
   registerController,
   logoutController,
+  testRoute,
 } = require("../controllers/user.controller");
+
+router.route("/").get(testRoute)
 
 router.route("/login").post(loginController);
 

@@ -4,6 +4,17 @@ const jwtSecretKey = process.env.JWT_SECRET_KEY;
 
 const UserModel = require("../models/user.models");
 
+// testing purpose
+const testRoute = async(req,res) => {
+  try {
+    res.status(200).json("Google Classroom Server Running..!!");
+  } 
+  catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
 const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -85,4 +96,4 @@ const logoutController = async (req, res) => {
   }
 };
 
-module.exports = { loginController, registerController, logoutController };
+module.exports = { testRoute, loginController, registerController, logoutController };
