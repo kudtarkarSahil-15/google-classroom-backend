@@ -1,6 +1,5 @@
 # Google ClassRoom Backend
 
-
 ## Setup Procedure
 
 1. **Clone the Repository:**
@@ -46,5 +45,5 @@
 The API can be tested using [Postman](https://documenter.getpostman.com/view/28691829/2s9Ykn8Mg5)
 
 ## Hosted API URL
-The API is hosted at [https://your-hosted-api-url](https://classroom-backend-t65b.onrender.com).
+The API is hosted at [API URL](https://classroom-backend-t65b.onrender.com/api/v1/).
 
