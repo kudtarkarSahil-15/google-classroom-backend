@@ -46,4 +46,5 @@ The API can be tested using [Postman](https://documenter.getpostman.com/view/286
 
 ## Hosted API URL
 API URL: [https://classroom-backend-t65b.onrender.com/api/v1/](https://classroom-backend-t65b.onrender.com/api/v1/).
+test Route: [https://classroom-backend-t65b.onrender.com/api/v1/class](https://classroom-backend-t65b.onrender.com/api/v1/class).
 
