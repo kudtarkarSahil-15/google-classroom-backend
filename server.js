@@ -3,6 +3,7 @@ const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
+const errorHandler = require("./middlewares/errorhandler")
 
 const app = express();
 
@@ -33,6 +34,9 @@ mongoose
 app.use("/api/v1", userRoutes);
 app.use("/api/v1/class", teacherRoutes);
 app.use("/api/v1", studentRoutes);
+
+// error handler middleware
+app.use(errorHandler)
 
 // listen
 app.listen(PORT, () => console.log(`server is running on ${PORT}`));

@@ -1,6 +1,7 @@
+const asyncHandler = require("express-async-handler");
 const classroomModels = require("../models/classroom.models");
 
-const createClass = async (req, res) => {
+const createClass = asyncHandler(async (req, res) => {
   try {
     const { classname, section, subject } = req.body;
 
@@ -29,22 +30,23 @@ const createClass = async (req, res) => {
     console.log(error);
     res.status(500).json(error);
   }
-};
+});
 
-const fetchAllClasses = async (req, res) => {
+const fetchAllClasses = asyncHandler(async (_, res) => {
   try {
-    const classes = await classroomModels.find({})
-          .populate('enrolledstudents.studentId', '_id username email')
-          .populate('assignments.submissions.studentId', '_id username email')
+    const classes = await classroomModels
+      .find({})
+      .populate("enrolledstudents.studentId", "_id username email")
+      .populate("assignments.submissions.studentId", "_id username email");
 
     res.status(200).json({ classes, message: "get list of all classes" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error, message: "server error" });
   }
-};
+});
 
-const createAssignment = async (req, res) => {
+const createAssignment = asyncHandler(async (req, res) => {
   try {
     const classId = req.params.id;
     const { title, instructions } = req.body;
@@ -76,9 +78,9 @@ const createAssignment = async (req, res) => {
     console.error(error);
     res.status(500).json({ error, message: "Server error" });
   }
-};
+});
 
-const updateAssignment = async (req, res) => {
+const updateAssignment = asyncHandler(async (req, res) => {
   try {
     const { assignmentId, title, instructions } = req.body;
 
@@ -114,9 +116,9 @@ const updateAssignment = async (req, res) => {
     console.log(error);
     res.status(500).json({ error, message: "Server error" });
   }
-};
+});
 
-const deleteAssignment = async (req, res) => {
+const deleteAssignment = asyncHandler(async (req, res) => {
   try {
     const { assignmentId } = req.body;
 
@@ -151,9 +153,9 @@ const deleteAssignment = async (req, res) => {
     console.log(error);
     res.status(500).json({ error, message: "Server error" });
   }
-};
+});
 
-const updateClassroom = async (req, res) => {
+const updateClassroom = asyncHandler(async (req, res) => {
   try {
     const classId = req.params.id;
 
@@ -170,21 +172,21 @@ const updateClassroom = async (req, res) => {
     console.log(error);
     res.status(500).json({ error, message: "server error" });
   }
-};
+});
 
-const deleteClassRoom = async (req, res) => {
+const deleteClassRoom = asyncHandler(async (req, res) => {
   try {
-    if (!req.user && req.user.role === "teacher") {
-      return res
-        .status(400)
-        .json({ message: "do not have access to delete a class..!!" });
-    }
-
     const classId = req.params.id;
     const myClass = await classroomModels.findById(classId);
 
     if (!myClass) {
       return res.status(400).json({ message: "class not found..!!" });
+    }
+
+    if (req.user.role !== "teacher") {
+      return res
+        .status(400)
+        .json({ message: "do not have access to delete a class..!!" });
     }
 
     const deleteClass = await classroomModels.findByIdAndDelete(classId);
@@ -195,9 +197,9 @@ const deleteClassRoom = async (req, res) => {
     console.log(error);
     res.status(500).json({ error, message: "server error" });
   }
-};
+});
 
-const assignMarksToStudent = async (req, res) => {
+const assignMarksToStudent = asyncHandler(async (req, res) => {
   try {
     const { id: classId } = req.params;
     const { assignmentId, studentId, marks } = req.body;
@@ -215,7 +217,7 @@ const assignMarksToStudent = async (req, res) => {
     console.log(error);
     res.status(500).json({ error, message: "Server error" });
   }
-};
+});
 
 module.exports = {
   createClass,

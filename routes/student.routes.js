@@ -13,8 +13,8 @@ router.route("/enroll").put(userAuthentication, enrollClass);
 
 router.route("/unenroll").put(userAuthentication, unenrollClass);
 
-router.route("/").get(userAuthentication, listOfUserEnrollClass);
+router.route("/get").get(userAuthentication, listOfUserEnrollClass);
 
-router.route("/assignment/:id").put(userAuthentication, submitAssignment)
+router.route("/assignment/:id").put(userAuthentication, submitAssignment);
 
 module.exports = router;

@@ -1,7 +1,8 @@
+const asyncHandler = require("express-async-handler");
 const classroomModels = require("../models/classroom.models");
 const userModels = require("../models/user.models");
 
-const enrollClass = async (req, res) => {
+const enrollClass = asyncHandler(async (req, res) => {
   try {
     const { classCode } = req.body;
 
@@ -54,9 +55,9 @@ const enrollClass = async (req, res) => {
     console.log(error);
     res.status(500).json(error);
   }
-};
+});
 
-const unenrollClass = async (req, res) => {
+const unenrollClass = asyncHandler(async (req, res) => {
   try {
     const { classCode } = req.body;
 
@@ -80,7 +81,7 @@ const unenrollClass = async (req, res) => {
       { new: true }
     );
 
-    const userUnenrollClass = await classroomModels.findByIdAndUpdate(
+    const userUnenrollClass = await userModels.findByIdAndUpdate(
       req.user._id,
       {
         $pull: {
@@ -99,9 +100,9 @@ const unenrollClass = async (req, res) => {
     console.log(error);
     res.status(500).json(error);
   }
-};
+});
 
-const listOfUserEnrollClass = async (req, res) => {
+const listOfUserEnrollClass = asyncHandler(async (req, res) => {
   try {
     const userEmail = req.user.email;
     const myclassRooms = await userModels
@@ -129,9 +130,9 @@ const listOfUserEnrollClass = async (req, res) => {
     console.log(error);
     res.status(500).json({ error, message: "server error" });
   }
-};
+});
 
-const submitAssignment = async (req, res) => {
+const submitAssignment = asyncHandler(async (req, res) => {
   try {
     const { assignmentId, content } = req.body;
     const classId = req.params.id;
@@ -143,7 +144,9 @@ const submitAssignment = async (req, res) => {
     });
 
     if (!isAcceptingSubmissions) {
-      return res.status(400).json({ message: "Assignment does not accept submissions" });
+      return res
+        .status(400)
+        .json({ message: "Assignment does not accept submissions" });
     }
 
     const updatedClass = await classroomModels.findOneAndUpdate(
@@ -166,10 +169,7 @@ const submitAssignment = async (req, res) => {
     console.log(error);
     res.status(500).json({ error, message: "Server error" });
   }
-};
-
-
-
+});
 
 module.exports = {
   enrollClass,

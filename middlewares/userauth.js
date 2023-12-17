@@ -1,9 +1,10 @@
+const asyncHandler = require("express-async-handler");
 const jsonwebtoken = require("jsonwebtoken");
 const jwtSecretKey = process.env.JWT_SECRET_KEY;
 
 const UserModel = require("../models/user.models");
 
-const userAuthentication = async (req, res, next) => {
+const userAuthentication = asyncHandler(async (req, res, next) => {
   try {
     const token = req.cookies.jwtoken;
 
@@ -16,8 +17,6 @@ const userAuthentication = async (req, res, next) => {
     // verify token
     const verifyToken = jsonwebtoken.verify(token, jwtSecretKey);
 
-    // check token exp
-
     // verify with user
     const user = await UserModel.findOne({ _id: verifyToken._id });
     if (!user) {
@@ -25,7 +24,8 @@ const userAuthentication = async (req, res, next) => {
     }
 
     // attach token, for later use
-    (req.token = token), (req.user = user);
+    req.token = token
+    req.user = user
 
     console.log("user is authorized");
 
@@ -35,6 +35,6 @@ const userAuthentication = async (req, res, next) => {
     console.log(error);
     res.status(500).json({ message: "server error" });
   }
-};
+});
 
 module.exports = userAuthentication;

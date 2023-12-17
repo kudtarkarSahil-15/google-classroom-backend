@@ -16,7 +16,7 @@ const userAuthentication = require("../middlewares/userauth");
 
 router.route("/create").post(userAuthentication, createClass)
 
-router.route("/").get(fetchAllClasses)
+router.route("/").get(userAuthentication, fetchAllClasses)
 
 router.route("/assignment/:id").put(userAuthentication, createAssignment)
 
