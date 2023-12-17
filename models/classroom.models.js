@@ -1,41 +1,47 @@
 const mongoose = require("mongoose");
 
-
-const AssignmentSchema = new mongoose.Schema(
+const AssignmentSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  instructions: {
+    type: String,
+    required: true,
+  },
+  marks: {
+    type: Number,
+    min: 0,
+    max: 100,
+    default: 100,
+  },
+  aceept_submission: {
+    type: Boolean,
+    default: true,
+  },
+  duedate: {
+    type: Date,
+    default: () => new Date(Date.now() + 24 * 60 * 60 * 1000),
+  },
+  submissions: [
     {
-        title: String,
-        instructions: String,
-        marks: {
-          type: Number,
-          default: 100
-        },
-        aceept_submission: {
-          type: Boolean,
-          default: true,
-        },
-        duedate: {
-          type: Date,
-          default: () => new Date(Date.now() + 24 * 60 * 60 * 1000)
-        },
-        submissions: [
-          {
-              studentId: {
-                  type: mongoose.Schema.Types.ObjectId,
-                  ref: "user"
-              },
-              content: {
-                type: String,
-                require: true,
-              },
-              marks: {
-                  type: Number,
-                  default: 0
-              }
-          }
-        ]
+      studentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
       },
-)
-
+      content: {
+        type: String,
+        require: true,
+      },
+      marks: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 100,
+      },
+    },
+  ],
+});
 
 const ClassroomSchema = new mongoose.Schema({
   classname: {
