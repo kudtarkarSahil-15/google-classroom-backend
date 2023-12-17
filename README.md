@@ -17,8 +17,8 @@
     Create a `.env` file in the root directory with the following content:
     ```env
     PORT=5000
-    DATABASE_URL=<your-mongodb-atlas-url>
-    JWT_SECRET_KEY=<your-secret-key>
+    DATABASE_URL=<db-url>
+    JWT_SECRET_KEY=<secret-key>
     ```
 
 4. **Run the Application:**
